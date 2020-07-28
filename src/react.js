@@ -7,9 +7,13 @@ class 编译之后也是一个函数，为了区分这个函数是类组件 还�
 
 
 export class Component {
-  static isReactComponent = true;
+  static isReactComponent = true; // 标记为class组件
   constructor(props){
     this.props = props;
+  }
+  // 部分状态的意思
+  setState(partialState){
+
   }
 }
 

@@ -5,6 +5,7 @@ function render(element,container){
     }
 
     let {props,type} = element;
+    console.log(type.isReactComponent,'isReactComponent')
     let isReactComponent = type.isReactComponent;
     if(isReactComponent){ //判断 知道了这里是不是一个class组件
         let componentInstance = new type(props);
