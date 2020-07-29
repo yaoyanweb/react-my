@@ -1,5 +1,13 @@
-import React from 'react'; //核心库
-import ReactDOM from 'react-dom';  // DOM渲染库
+/*
+ * @Author: your name
+ * @Date: 2020-07-23 07:42:07
+ * @LastEditTime: 2020-07-29 08:59:52
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-my/src/index.js
+ */
+import React from './react'; //核心库
+import ReactDOM from './react-dom';  // DOM渲染库
 import './index.css';
 /* 
 1。不要直接修改state，直接修改不能刷新页面setState 包含了刷新界面的操作，
@@ -25,6 +33,7 @@ class Clock extends React.Component {
       }
    }
    handleClick = ()=>{
+     console.log(this.state,'this.state');
      /* 
       如果想要同步 setState支持第二个函数放一个callback  回调 
      */
