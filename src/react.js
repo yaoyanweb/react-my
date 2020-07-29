@@ -10,6 +10,8 @@ export class Component {
   static isReactComponent = true; // 标记为class组件
   constructor(props){
     this.props = props;
+    this.updateQueue = []; // 这是放着临时更新队列
+    this.isBatchingUpdate = false; // 表示当时是否处于批量更新模式
   }
   // 部分状态的意思
   setState(partialState){
