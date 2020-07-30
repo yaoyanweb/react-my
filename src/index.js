@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-23 07:42:07
- * @LastEditTime: 2020-07-29 08:59:52
+ * @LastEditTime: 2020-07-30 08:50:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/index.js
@@ -67,11 +67,16 @@ class Clock extends React.Component {
     
    }
 
-   
+   handleDiv = (event) => {
+      console.log(event,'handleDiv');
+   }
   
    render(){
      return (
        <div>
+          <button onClick={this.handleDiv}>增加handleDiv</button>
+          <button onclick={(event)=>{console.log(event)}}>增加handleDiv111</button>
+         
           <button onClick={this.handleClick}>增加</button>
           <h2>{this.state.name}：{this.state.number}</h2>
        </div>

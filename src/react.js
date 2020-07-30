@@ -27,7 +27,8 @@ export class Component {
   }
   forceUpdate(){
     this.state = this.updateQueue.reduce((accumulate,current)=>{
-      let nextState = typeof current === 'function' ? current(this.state):current;
+      // accumulate 是当前的值   this.state 是最后赋的值
+      let nextState = typeof current === 'function' ? current(accumulate):current;
       accumulate = {...accumulate, ...nextState};
       return accumulate;
     },this.state);
