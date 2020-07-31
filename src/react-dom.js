@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-07-30 08:32:06
+ * @LastEditTime: 2020-07-31 07:55:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
@@ -37,6 +37,11 @@ function render(element,container,componentInstance){
     let isReactComponent = type.isReactComponent;
     if(isReactComponent){ //判断 知道了这里是不是一个class组件
         componentInstance = new type(props);
+        // 加入生命周期函数
+        if(componentInstance.componentWillMount){
+            componentInstance.componentWillMount();
+        }
+
         element = componentInstance.render();
         type = element.type;  // 重新得到这个React 元素的类型
         props = element.props; // 和属性对象
@@ -56,6 +61,13 @@ function render(element,container,componentInstance){
         componentInstance.dom = dom;
     }
     container.appendChild(dom);
+    /* 
+        如果它是一个class组件并且
+        它有这个实例，并且它有componentDidMount这个方法
+    */
+    if(isReactComponent&&componentInstance&&componentInstance.componentDidMount){
+        componentInstance.componentDidMount();
+    }
 }
 
 /**
@@ -76,6 +88,8 @@ function addEvent(dom,eventType,listener,componentInstance){
 
 function dispatchEvent(event){ //event 是原生dom事件
     let {type, target} = event; // 取出事件的类型 click 事件源 比如是点了按钮 按钮就是事件源
+
+    /* 这个while循环是为了模拟事件冒泡 */
     while(target){
         let { eventStore } = target;
         if(eventStore){

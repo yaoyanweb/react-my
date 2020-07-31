@@ -17,9 +17,13 @@ export class Component {
     this.props = props;
     this.updateQueue = []; // 这是放着临时更新队列
     this.isBatchingUpdate = false; // 表示当时是否处于批量更新模式
+    this.callbacks = [];
   }
   // 部分状态的意思
-  setState(partialState){
+  setState(partialState,callback){
+    if(callback){
+      this.callbacks.push(callback);
+    }
     this.updateQueue.push(partialState);
     if(!this.isBatchingUpdate){
       this.forceUpdate();
@@ -37,6 +41,8 @@ export class Component {
 
     // 更新组件
     uodateComponent(this);
+    this.callbacks.forEach(cb => cb());
+    this.callbacks = [];
   }
 }
 
