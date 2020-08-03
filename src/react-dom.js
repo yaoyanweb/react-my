@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-07-31 07:55:32
+ * @LastEditTime: 2020-08-03 08:11:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
@@ -138,6 +138,16 @@ function createDOM(props,type,componentInstance) {
             dom.setAttribute(propName,  props[propName])
         }
     };
+    if(props.ref){
+        if(typeof props.ref === 'string'){
+            /* componentInstance  是组件实例 */
+            componentInstance.refs[props.ref] = dom;
+        } else if(typeof props.ref === 'function'){
+            props.ref.call(componentInstance,dom);
+        } else if(typeof props.ref === 'object'){
+            props.ref.current = dom;
+        }
+    }
     return dom;
 }
 

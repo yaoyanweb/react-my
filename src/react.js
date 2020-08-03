@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-27 08:02:40
+ * @LastEditTime: 2020-08-03 08:12:53
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-my/src/react.js
+ */
 import {uodateComponent} from './react-dom';
 
 
@@ -18,6 +26,7 @@ export class Component {
     this.updateQueue = []; // 这是放着临时更新队列
     this.isBatchingUpdate = false; // 表示当时是否处于批量更新模式
     this.callbacks = [];
+    this.refs = {}; 
   }
   // 部分状态的意思
   setState(partialState,callback){
@@ -30,6 +39,9 @@ export class Component {
     }
   }
   forceUpdate(){
+    if(this.updateQueue.length === 0){
+      return;
+    }
     this.state = this.updateQueue.reduce((accumulate,current)=>{
       // accumulate 是当前的值   this.state 是最后赋的值
       let nextState = typeof current === 'function' ? current(accumulate):current;
@@ -55,9 +67,12 @@ export function createElement(type,config = {},...children){
       props
     }
   }
-
+export function createRef(){
+  return {current: null};
+}
 
 export default {
   createElement,
-  Component
+  Component,
+  createRef
 }
