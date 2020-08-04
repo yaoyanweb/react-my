@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 08:02:40
- * @LastEditTime: 2020-08-03 08:12:53
+ * @LastEditTime: 2020-08-04 08:24:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react.js
@@ -67,6 +67,19 @@ export function createElement(type,config = {},...children){
       props
     }
   }
+
+export function forwardRef(FunctionComponent){
+    return class extends Component {
+      render(){
+        // this.props.ref 就是把这个函数组件变成class 组件 再通过回调方法 把props 和 ref 两个参数传递过来
+
+        // 所以会返回一个类组件，类组件才能接收ref
+        // 类组件render渲染的时候，会用函数组件来进行渲染
+        return FunctionComponent(this.props,this.props.ref)
+      }
+    }
+}
+  
 export function createRef(){
   return {current: null};
 }
@@ -74,5 +87,6 @@ export function createRef(){
 export default {
   createElement,
   Component,
-  createRef
+  createRef,
+  forwardRef
 }

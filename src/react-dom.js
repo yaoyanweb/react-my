@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-08-03 08:11:31
+ * @LastEditTime: 2020-08-04 07:32:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
@@ -37,6 +37,12 @@ function render(element,container,componentInstance){
     let isReactComponent = type.isReactComponent;
     if(isReactComponent){ //判断 知道了这里是不是一个class组件
         componentInstance = new type(props);
+        // 让组件支持ref
+        if(props.ref){
+            props.ref.current = componentInstance;
+        }
+
+
         // 加入生命周期函数
         if(componentInstance.componentWillMount){
             componentInstance.componentWillMount();
