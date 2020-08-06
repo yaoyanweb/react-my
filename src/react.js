@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 08:02:40
- * @LastEditTime: 2020-08-04 08:24:47
+ * @LastEditTime: 2020-08-04 20:00:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react.js
@@ -42,6 +42,7 @@ export class Component {
     if(this.updateQueue.length === 0){
       return;
     }
+    // 不管你要不要更新，反正this.state 肯定会变，只不过有可能页面不更新而已。
     this.state = this.updateQueue.reduce((accumulate,current)=>{
       // accumulate 是当前的值   this.state 是最后赋的值
       let nextState = typeof current === 'function' ? current(accumulate):current;
@@ -51,10 +52,27 @@ export class Component {
     // 清空更新队列
     this.updateQueue.length = 0;
 
-    // 更新组件
-    uodateComponent(this);
     this.callbacks.forEach(cb => cb());
     this.callbacks = [];
+
+    //如果有shouldComponentUpdate这个属性  并且为false 就不掉更新组件的方法
+    if(this.shouldComponentUpdate&&!this.shouldComponentUpdate(this.props,this.state)){
+      return;
+    }
+
+    // 如果UNSAFE_componentWillUpdate 有值就调它的方法
+    if(this.UNSAFE_componentWillUpdate){
+      this.UNSAFE_componentWillUpdate();
+    }
+
+    // 更新组件
+    uodateComponent(this);
+
+    // componentDidUpdate 有值就调它的方法
+    if(this.componentDidUpdate){
+      this.componentDidUpdate();
+    }
+    
   }
 }
 

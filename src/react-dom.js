@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-08-04 07:32:24
+ * @LastEditTime: 2020-08-04 19:39:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
@@ -44,8 +44,8 @@ function render(element,container,componentInstance){
 
 
         // 加入生命周期函数
-        if(componentInstance.componentWillMount){
-            componentInstance.componentWillMount();
+        if(componentInstance.UNSAFE_componentWillMount){
+            componentInstance.UNSAFE_componentWillMount();
         }
 
         element = componentInstance.render();
