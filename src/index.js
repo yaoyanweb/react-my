@@ -1,73 +1,98 @@
 /*
  * @Author: your name
  * @Date: 2020-07-31 07:29:20
- * @LastEditTime: 2020-08-06 09:13:33
+ * @LastEditTime: 2020-08-07 09:06:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/index.js
  */
 
 import React from 'react'; //核心库
-import ReactDOM from 'react-dom';  // DOM渲染库
-import './index.css';
+import ReactDOM from 'react-dom';
+import './index.css';  // DOM渲染库
 
+// ThemeContext = {Provider,Consumer}
+// ThemeContext是一个对象 里面有两个属性 一个提供者 一个消费者
+let ThemeContext = React.createContext();
 
-class ScrollList extends React.Component {
-  constructor(props){
-    super(props);
-    this.container = React.createRef();
-    this.state = {
-      messages:[]
+class Main extends React.Component {
+    render(){
+      return (
+        <div  style = {{margin: '10px',border: `1px solid ${this.props.color}`,padding: '5px'}}>
+          Main 
+          <Content changeColor={this.props.changeColor} color = {this.props.color} /> 
+        </div> 
+      )
     }
-  }
+}
 
-  componentDidMount(){
-    this.timer = setInterval(()=>{
-      this.setState({
-        messages: [`${this.state.messages.length}`,...this.state.messages]
-      })
-    },1000)
-  }
-
-  /* 
-    在组件重新更新前获取DOM的快照 这里拿的DOM更新前的DOM
-    简单通俗易懂的说  就是可以拿到老DOM的信息
-  */
-  getSnapshotBeforeUpdate(){
-
-    return this.container.current.scrollHeight; //获取内容的高度
-  }
-
-  /**
-   * @param {type} prevProps 
-   * @param {type} prevState  
-   * @param {type} prevScrollHeight 
-   */
-  /* 更新完成后 DOM已经改变 */
-  componentDidUpdate(prevProps, prevState, prevScrollHeight){
-
-  }
+class Content  extends React.Component {
   render(){
-    let styleObj = {
-      width: '100px',
-      height : '100px',
-      border : '1px solid red',
-      overflow : 'auto'
-    }
     return (
-      <div style = {styleObj} ref = { this.container }>
-          {
-            this.state.messages.map((item, index)=>
-             ( <div key={index}>{item}</div>)
-            )
-          }
+      <div  style = {{margin: '10px',border: `1px solid ${this.props.color}`,padding: '5px'}}>
+        Content
+        <br/>
+        <button onClick={()=>this.props.changeColor('red')}>红啊</button>
+        <br/>
+        <button onClick={()=>this.props.changeColor('green')}>绿啊</button>
       </div>
     )
   }
 }
 
+class Header extends React.Component {
+  static contextType = ThemeContext;
+  
+  render(){
+    console.log(Header.contextType,'contextType');
+    return (
+      <div  style = {{margin: '10px',border: `1px solid ${this.props.color}`,padding: '5px'}}>
+        Header 
+        <Title changeColor={this.props.changeColor} color = {this.props.color} /> 
+      </div>
+    )
+  }
+}
+
+class Title extends React.Component {
+  render(){
+    return (
+      <div  style = {{margin: '10px',border: `1px solid ${this.props.color}`,padding: '5px', }}>Title</div>
+    )
+  }
+}
+
+class Page extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      color: 'red'
+    }
+  }
+  changeColor = (color) => {
+    this.setState({color})
+  }
+  render(){
+    let value = {
+      color: this.state.color,
+      changeColor: this.changeColor
+    }
+    return (
+      <ThemeContext.Provider value={value}>
+        <div style = {{margin: '10px',border: `1px solid ${this.state.color}`,padding: '5px', width: '200px'}}>
+          Page
+          <Header changeColor={this.changeColor} color = {this.state.color} />
+          <Main changeColor={this.changeColor} color = {this.state.color} />
+        </div>
+      </ThemeContext.Provider>
+     
+    )
+  }
+}
+
+
 ReactDOM.render(
-  <ScrollList />
+  <Page />
 ,
   document.getElementById('root')
 );
