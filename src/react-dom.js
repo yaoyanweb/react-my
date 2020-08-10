@@ -1,23 +1,28 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-08-04 19:39:01
+ * @LastEditTime: 2020-08-10 08:47:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
  */
-export function uodateComponent(componentInstance){
+export function updateComponent(componentInstance){
     let element = componentInstance.render(); //根据新的属性和状态得到新的element
     let {props,type} = element;
-    let newDom = createDOM(props,type,componentInstance);// 根据新的element 得到新的DOM元素
+    if(typeof type === 'function'){
+
+        componentInstance.dom.parentNode.removeChild(componentInstance.componentInstance);
+        return render(element,container,componentInstance);
+    }
+    //  let newDom = createDOM(props,type,componentInstance);// 根据新的element 得到新的DOM元素
     /**
      * componentInstance.dom.parentNode => 是root Div
      * 把老的DOM节点替换成新的DOM节点
      */
-    componentInstance.dom.parentNode.replaceChild(newDom, componentInstance.dom);
+    // componentInstance.dom.parentNode.replaceChild(newDom, componentInstance.dom);
 
     // 替换后 新的dom节点就相当于老的节点
-    componentInstance.dom = newDom;
+    // componentInstance.dom = newDom;
 }
 
 
@@ -28,10 +33,9 @@ export function uodateComponent(componentInstance){
  * @param {type} componentInstance 当前实例
  */
 function render(element,container,componentInstance){
-    
     if(typeof element === 'string' || typeof element === 'number' ){
         return container.appendChild(document.createTextNode(element))
-    }
+    } 
 
     let {props,type} = element; // 当type为Counter组件类型的时候 
     let isReactComponent = type.isReactComponent;
@@ -49,13 +53,22 @@ function render(element,container,componentInstance){
         }
 
         element = componentInstance.render();
+        element = Array.isArray(element)?element[0]:element;
         type = element.type;  // 重新得到这个React 元素的类型
         props = element.props; // 和属性对象
       
     }else if(typeof type === 'function'){ //说明是一个函数组件
         element = type(props); // 函数组件执行后返回一个React元素
+        element = Array.isArray(element)?element[0]:element;
         type = element.type; // 重新得到这个React元素类型
         props = element.props; // 和属性对象
+    }
+    /* 
+        如果说类组件实例 渲染出来的element 的类型也有isReactComponent
+        这个属性，说明它是一个类组件。
+     */
+    if((type&&type.isReactComponent) || typeof type === 'function'){
+        return render(element,container,componentInstance);
     }
     let dom = createDOM(props,type,componentInstance);
     if(isReactComponent&&componentInstance){
@@ -144,7 +157,7 @@ function createDOM(props,type,componentInstance) {
             dom.setAttribute(propName,  props[propName])
         }
     };
-    if(props.ref){
+    if(props&&props.ref){
         if(typeof props.ref === 'string'){
             /* componentInstance  是组件实例 */
             componentInstance.refs[props.ref] = dom;

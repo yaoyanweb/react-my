@@ -1,32 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-07-31 07:29:20
- * @LastEditTime: 2020-08-10 08:36:23
+ * @LastEditTime: 2020-08-10 07:40:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/index.js
  */
 
-import React from './react'; //核心库
-import ReactDOM from './react-dom';
+import React from 'react'; //核心库
+import ReactDOM from 'react-dom';
 import './index.css';  // DOM渲染库
-
-function createContext(){
-  function Provider(props){
-    Provider.value = props.value;
-    console.log(props.children);
-    return  Array.isArray(props.children)? props.children[0] : props.children; //直接渲染儿子
-  };
-  function Consumer(props){
-   let children =  Array.isArray(props.children)? props.children[0] : props.children;
-    return children( Provider.value);
-  }
-  return {Provider, Consumer}
-}
 
 // ThemeContext = {Provider,Consumer}
 // ThemeContext是一个对象 里面有两个属性 一个提供者 一个消费者
-let ThemeContext = createContext();
+let ThemeContext = React.createContext();
 
 class Main extends React.Component {
     render(){

@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 08:02:40
- * @LastEditTime: 2020-08-04 20:00:15
+ * @LastEditTime: 2020-08-10 08:42:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react.js
  */
-import {uodateComponent} from './react-dom';
+import {updateComponent} from './react-dom';
 
 
 
@@ -66,7 +66,7 @@ export class Component {
     }
 
     // 更新组件
-    uodateComponent(this);
+    updateComponent(this);
 
     // componentDidUpdate 有值就调它的方法
     if(this.componentDidUpdate){
