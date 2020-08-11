@@ -1,28 +1,23 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-08-10 08:47:32
+ * @LastEditTime: 2020-08-11 08:22:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
  */
-export function updateComponent(componentInstance){
+export function uodateComponent(componentInstance){
     let element = componentInstance.render(); //根据新的属性和状态得到新的element
     let {props,type} = element;
-    if(typeof type === 'function'){
-
-        componentInstance.dom.parentNode.removeChild(componentInstance.componentInstance);
-        return render(element,container,componentInstance);
-    }
-    //  let newDom = createDOM(props,type,componentInstance);// 根据新的element 得到新的DOM元素
+    let newDom = createDOM(props,type,componentInstance);// 根据新的element 得到新的DOM元素
     /**
      * componentInstance.dom.parentNode => 是root Div
      * 把老的DOM节点替换成新的DOM节点
      */
-    // componentInstance.dom.parentNode.replaceChild(newDom, componentInstance.dom);
+    componentInstance.dom.parentNode.replaceChild(newDom, componentInstance.dom);
 
     // 替换后 新的dom节点就相当于老的节点
-    // componentInstance.dom = newDom;
+    componentInstance.dom = newDom;
 }
 
 
