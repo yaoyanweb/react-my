@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-07-27 18:30:23
- * @LastEditTime: 2020-08-11 08:22:36
+ * @LastEditTime: 2020-08-11 08:46:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/react-dom.js
  */
-export function uodateComponent(componentInstance){
+export function updateComponent(componentInstance){
     let element = componentInstance.render(); //根据新的属性和状态得到新的element
     let {props,type} = element;
     let newDom = createDOM(props,type,componentInstance);// 根据新的element 得到新的DOM元素
