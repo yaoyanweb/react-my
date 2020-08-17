@@ -1,0 +1,29 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-08-17 07:58:19
+ * @LastEditTime: 2020-08-17 08:03:32
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-my/public/hash.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <a href="#/a">访问a</a>
+    <a href="#/b">访问b</a>
+    <a href="#">访问</a>
+    <script>
+        window.addEventListener('hashchange',()=>{
+            console.log(window.location)
+            root.innerHTML = window.location.hash;
+        });
+
+    </script>
+</body>
+</html>

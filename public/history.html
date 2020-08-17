@@ -1,0 +1,46 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-08-17 08:06:24
+ * @LastEditTime: 2020-08-17 09:04:14
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-my/public/history.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="goto('/a')">/a</button>
+    <button onclick="goto('/b')">/b</button>
+    <div id="root"></div>
+    <script>
+         (function(){
+            let oldPushState = history.pushState; // 缓存官方的 老的 原版push 方法
+            history.pushState = function(state,title,pathname){
+                if(typeof window.onpushstate === 'function'){
+                    window.onpushstate(state,title,pathname);
+                }
+                return oldPushState.apply(history,arguments);
+            }
+         })(history)
+         window.onpushstate = function(state,title,pathname){
+            root.innerHTML = pathname;
+         }
+         let root = document.getElementById('root');
+         window.onpopstate = function(event){
+            console.log(event,'event');
+            root.innerHTML = location.pathname;
+         };
+         function goto(pathName){
+            history.pushState(null,null,pathName);
+         }
+         
+        
+    </script>
+
+</body>
+</html>
