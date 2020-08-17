@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-31 07:29:20
- * @LastEditTime: 2020-08-17 20:18:53
+ * @LastEditTime: 2020-08-18 07:38:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/index.js
@@ -10,20 +10,24 @@
 import React from 'react'; //核心库
 import ReactDOM from 'react-dom';
 import './index.css';  // DOM渲染库
-import App from './App'
+import Home from './components/Home';
+import User from './components/User';
+import Profile from './components/Profile';
 import { HashRouter as Router,Route } from 'react-router-dom';
 
 /* 
   Router 是路由容器，放在最外层
   Route 代表路由配置 当前地址栏的路径是path的话 就渲染component
+  router 配置有三种 1 手工写代码 2 约定式 3 配置式 routes.js
 
 */
 ReactDOM.render(
   <Router>
     <>
       <Route path="/" component = { Home } />
-      <Route path="/User" component = { User } />
-      <Route path="/Profile" component = { Profile } />
+      <Route path="/user" component = { User } />
+      <Route path="/profile" component = { Profile } />
     </>
-  </Router>
+  </Router>,
+  document.getElementById('root')
 )
