@@ -6,7 +6,7 @@ import history from '../history';
 import history from '../history';
  * @Author: your name
  * @Date: 2020-08-20 08:32:20
- * @LastEditTime: 2020-08-21 07:54:36
+ * @LastEditTime: 2020-08-24 08:18:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/history/createBrowserHistory.js
@@ -31,8 +31,12 @@ import history from '../history';
     const globalHistory = window.history;
     // 有些时候 需要监听路由变化
     const listeners = [];
-    function listen(listen){
-        listeners.push(listen);
+    function listen(listener){
+        listeners.push(listener);
+        // 监听函数会返回一个取消监听的函数
+        return function(){
+            listeners = listeners.filter(item => item !== listener);
+        }
     }
     function setState(nextState){
        Object.assign(history);  

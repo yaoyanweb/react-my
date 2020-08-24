@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-20 08:31:51
- * @LastEditTime: 2020-08-21 08:12:03
+ * @LastEditTime: 2020-08-24 08:19:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-my/src/history/createHashHistory.js
@@ -38,8 +38,12 @@ import history from '../history';
 function createHashHistory(){
     const listeners = [];
     let state = {};
-    function listen(listen){
-        listeners.push(listen);
+    function listen(listener){
+        listeners.push(listener);
+        // 监听函数会返回一个取消监听的函数
+        return function(){
+            listeners = listeners.filter(item => item !== listener);
+        }
     }
 
     function setState(nextState){
